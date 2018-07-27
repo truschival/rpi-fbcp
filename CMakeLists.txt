@@ -1,14 +1,21 @@
 cmake_minimum_required(VERSION 2.8)
 
+SET(CMAKE_VERBOSE_MAKEFILE  ON)
+SET(CMAKE_COLOR_MAKEFILE ON)
+SET(CMAKE_WARN_DEPRECATED ON)
+SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+project (fbcp CXX C)
+
 SET(COMPILE_DEFINITIONS -Werror)
-
-include_directories(/opt/vc/include)
-include_directories(/opt/vc/include/interface/vcos/pthreads)
-include_directories(/opt/vc/include/interface/vmcs_host)
-include_directories(/opt/vc/include/interface/vmcs_host/linux)
-
-link_directories(/opt/vc/lib)
 
 add_executable(fbcp main.c)
 
-target_link_libraries(fbcp bcm_host)
+target_link_libraries(fbcp
+  bcm_host
+  vchostif
+  )
+
+INSTALL(TARGETS fbcp
+  RUNTIME DESTINATION "/usr/bin"
+  )
